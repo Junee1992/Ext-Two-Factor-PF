@@ -1,5 +1,5 @@
 %% Parameter Estimation
-function [par_optim, log_L_optim, par_init, trend, season, att, ytt, ett, ett_1, Ptt, fitresult_linear, fitresult_season] = par_estimate(y, ttm, model_options, max_lags)
+function [par_optim, log_L_optim, par_init, trend, season, att, ytt, ett, ett_1, Ptt, fitresult_linear, fitresult_season] = par_estimate(y, ttm, model_options)
 
 fields = fieldnames(model_options);
 for i = 1:numel(fields)
@@ -53,19 +53,21 @@ for i = 1:length(par_init)
     end
 end
 
-if correlation == 1
-    rho_range = linspace(-0.9999, 0.9999, 5);
-    [grids{1:ncontracts}] = ndgrid(rho_range);
-    parameter_grid = cell2mat(cellfun(@(x) x(:), grids, 'UniformOutput', false));
-    init = [repmat(par_init(:,1:8+ncontracts),length(parameter_grid), 1) parameter_grid];
-    parfor i = 1:length(init)
-        log_L = kf_SS(init(i,:), y_deseason, ttm, model_options);
-        logL(i) = log_L;
-    end
-    % par_init = mean(init(find(logL == min(logL)),:),1);
-    par_init = init(find(logL == min(logL)),:);
-    par_init = par_init(1,:);
-end
+% if correlation == 1
+%     rho_range = linspace(-0.7, 0.7, 5);
+%     [grids{1:ncontracts}] = ndgrid(rho_range);
+%     parameter_grid = cell2mat(cellfun(@(x) x(:), grids, 'UniformOutput', false));
+%     init = [repmat(par_init(:,1:8+ncontracts),length(parameter_grid), 1) parameter_grid];
+%     logL = [];
+%     parfor i = 1:length(init)
+%         i
+%         log_L = kf_SS(init(i,:), y_deseason, ttm, model_options);
+%         logL(i) = log_L;
+%     end
+%     % par_init = mean(init(find(logL == min(logL)),:),1);
+%     par_init = init(find(logL == min(logL)),:);
+%     par_init = par_init(1,:);
+% end
 
 for i = 1:length(par_init)
     if lb(i) >= par_init(i)

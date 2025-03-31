@@ -124,8 +124,8 @@ elseif err == "hyperbolic"
     % Lower and upper bounds for theta
     % lb_s = [0.00001*ones((1+(correlation == 1)) * ncontracts,1); 0.001];  % Lower bound for alpha and the standard deviations (assumed bounds)
     % ub_s = [1*ones((1+(correlation == 1)) * ncontracts,1); 10];  % Upper bound for alpha and the standard deviations
-    theta_initial = [1.5, 1.5, 1.5, repelem(0.005, ncontracts)];
-    lb_s = [repelem(0.001, 3), repelem(-1e-2, ncontracts)]; ub_s = [repelem(15, 3), repelem(1e-2, ncontracts)];
+    theta_initial = [0.5, 1.5, 0.5, repelem(0.005, ncontracts)];
+    lb_s = [repelem(0.001, 3), repelem(-1e-2, ncontracts)]; ub_s = [repelem(10, 3), repelem(1e-2, ncontracts)];
     if correlation == 0
         cov_matrix = diag(par_optim(9:8+ncontracts).^2);
     else
@@ -164,8 +164,8 @@ elseif err == "hyperbolic"
     % lb = [lb 1e-5]; ub = [ub 3];
     % elseif err == "hyperbolic"
     % lb = [lb -1 1e-5 1e-5 repelem(-1e-2, ncontracts)];
-    lb = [lb lb_s];
-    ub = [ub ub_s];
+    lb = [lb 1e-3 1e-3 1e-3 repelem(-1e-2, ncontracts)];
+    ub = [ub 10 10 10 repelem(1e-2, ncontracts)];
     % end
 end
 % y = ett;

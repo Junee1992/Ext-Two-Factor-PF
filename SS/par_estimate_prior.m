@@ -1,5 +1,5 @@
 %% Parameter Estimation
-function [par_optim, log_L_optim, par_init, trend, season, att, ytt, ett, ett_1, Ptt, fitresult_linear, fitresult_season] = par_estimate(y, ttm, model_options)
+function [par_optim, log_L_optim, par_init, trend, season, att, ytt, ett, ett_1, Ptt, fitresult_linear, fitresult_season] = par_estimate_prior(y, ttm, model_options, par_init)
 
 fields = fieldnames(model_options);
 for i = 1:numel(fields)
@@ -33,26 +33,26 @@ else
 end
 
 % Grid search
-correl = correlation;
-init = grid_search(lb, ub, n_lag, ncontracts, LT, correl);
-init_idx = find(init(:,1) < init(:,4));
-init(init_idx,:) = [];
-% log_L = kf_v1(init(1,:), par_names, y_deseason, deltat, ttm, LT, correl, serial);
-% parpool(8);
-parfor i = 1:size(init,1)
-    log_L = kf_SS(init(i,:), y_deseason, ttm, model_options);
-    logL(i) = log_L;
-end
-par_init = mean(init(find(logL == min(logL)),:),1);
-
-for i = 1:length(par_init)
-    if lb(i) >= par_init(i)
-        par_init(i) = par_init(i) + 1e-4;
-    elseif par_init(i) >= ub(i)
-        par_init(i) = par_init(i) - 1e-4;
-    end
-end
-
+% correl = correlation;
+% init = grid_search(lb, ub, n_lag, ncontracts, LT, correl);
+% init_idx = find(init(:,1) < init(:,4));
+% init(init_idx,:) = [];
+% % log_L = kf_v1(init(1,:), par_names, y_deseason, deltat, ttm, LT, correl, serial);
+% % parpool(8);
+% parfor i = 1:size(init,1)
+%     log_L = kf_SS(init(i,:), y_deseason, ttm, model_options);
+%     logL(i) = log_L;
+% end
+% par_init = mean(init(find(logL == min(logL)),:),1);
+% 
+% for i = 1:length(par_init)
+%     if lb(i) >= par_init(i)
+%         par_init(i) = par_init(i) + 1e-4;
+%     elseif par_init(i) >= ub(i)
+%         par_init(i) = par_init(i) - 1e-4;
+%     end
+% end
+% 
 % if correlation == 1
 %     rho_range = linspace(-0.7, 0.7, 5);
 %     [grids{1:ncontracts}] = ndgrid(rho_range);
@@ -67,14 +67,14 @@ end
 %     par_init = init(find(logL == min(logL)),:);
 %     par_init = par_init(1,:);
 % end
-
-for i = 1:length(par_init)
-    if lb(i) >= par_init(i)
-        par_init(i) = par_init(i) + 1e-4;
-    elseif par_init(i) >= ub(i)
-        par_init(i) = par_init(i) - 1e-4;
-    end
-end
+% 
+% for i = 1:length(par_init)
+%     if lb(i) >= par_init(i)
+%         par_init(i) = par_init(i) + 1e-4;
+%     elseif par_init(i) >= ub(i)
+%         par_init(i) = par_init(i) - 1e-4;
+%     end
+% end
 
 global save_ett save_ytt save_att save_vt save_att_1 save_Ptt save_Ptt_1 save_xt_1n save_Pt_1n save_ett_1
 
