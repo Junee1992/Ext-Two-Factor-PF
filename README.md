@@ -10,7 +10,7 @@ c) The Nested Particle Filter (NPF) algorithm by [[5]](#ref-crisan), [[6]](#ref-
 
 # How to run the codes
 
-Each algorithm are placed in different folders. The users can run "main_{algorithm}.m" files to run the algorithm. The data are simulated within the same code.
+Each algorithm is placed in a different folder. The users can run "main_code.m" file to run all three algorithms. We provide a sample EUA data from Jun 2017 to Aug 2018, obtained via [TradingView](https://www.tradingview.com/) using a month-free subscription.
 
 ## References
 <a id="ref-han1"></a> [1] Han, J. S., Kordzakhia, N., Shevchenko, P. V., & Trück, S. (2022). On correlated measurement errors in the Schwartz–Smith two-factor model. Dependence Modeling, 10(1), 108-122. (https://www.degruyter.com/document/doi/10.1515/demo-2022-0106/html)
