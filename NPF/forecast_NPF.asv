@@ -26,7 +26,6 @@ end
 
 [~, ~, lb, ub] = param_constr(n_par, ncontracts, LT, correlation, 0);
 ub(9:8+ncontracts) = 1;
-lb(5) = -3; ub(5) = 10;
 
 % Initialisation for the parameters (external particle)
 n_temp = nobsn - n_forecast;
@@ -124,8 +123,8 @@ elseif err == "hyperbolic"
     % Lower and upper bounds for theta
     % lb_s = [0.00001*ones((1+(correlation == 1)) * ncontracts,1); 0.001];  % Lower bound for alpha and the standard deviations (assumed bounds)
     % ub_s = [1*ones((1+(correlation == 1)) * ncontracts,1); 10];  % Upper bound for alpha and the standard deviations
-    theta_initial = [0.5, 1.5, 0.5, repelem(0.005, ncontracts)];
-    lb_s = [repelem(0.001, 3), repelem(-1e-2, ncontracts)]; ub_s = [repelem(10, 3), repelem(1e-2, ncontracts)];
+    theta_initial = [1.5, 1.5, 1.5, repelem(0.005, ncontracts)];
+    lb_s = [repelem(0.001, 3), repelem(-1e-2, ncontracts)]; ub_s = [repelem(15, 3), repelem(1e-2, ncontracts)];
     if correlation == 0
         cov_matrix = diag(par_optim(9:8+ncontracts).^2);
     else
@@ -164,8 +163,8 @@ elseif err == "hyperbolic"
     % lb = [lb 1e-5]; ub = [ub 3];
     % elseif err == "hyperbolic"
     % lb = [lb -1 1e-5 1e-5 repelem(-1e-2, ncontracts)];
-    lb = [lb 1e-3 1e-3 1e-3 repelem(-1e-2, ncontracts)];
-    ub = [ub 10 10 10 repelem(1e-2, ncontracts)];
+    lb = [lb lb_s];
+    ub = [ub ub_s];
     % end
 end
 % y = ett;
@@ -299,11 +298,11 @@ for t = 1:nobsn-n_forecast
     [~,ind] = min(abs(cumprob-0.975));
     uq_xi(t,:) = sorted_data(ind,1);
 
-    subplot(1,2,1)
-    plot(1:t, Neff(1:t)/M);
-    subplot(1,2,2)
-    plot(1:t, par_est(1:t,:));
-    pause(0.01);
+    % subplot(1,2,1)
+    % plot(1:t, Neff(1:t)/M);
+    % subplot(1,2,2)
+    % plot(1:t, par_est(1:t,:));
+    % pause(0.01);
 end
 
 bound_chi = [lq_chi uq_chi];

@@ -2,7 +2,7 @@
 % This code runs the NPF (Nested Particle Filter) algorithm for estimation
 % of states and parameters. Assume futures contracts mature annually.
 
-function output_npf = npf_example(model_options);
+function output = npf_example(model_options)
 
 fields = fieldnames(model_options);
 for i = 1:numel(fields)
@@ -31,19 +31,19 @@ model_options = struct('LT', LT, 'correlation', correlation, 'nobsn', nobsn, ...
 output = forecast_NPF(y, ttm, model_options);
 
 % Plot of forecast (1st available contract)
-figure;
-p = 1;
-y_temp = output.y_temp; varn = output.varn;
-plot(y(:,p), 'k');
-hold on
-plot(nobsn-n_forecast:nobsn, y_temp(nobsn-n_forecast:nobsn, p), 'g');
-for i = 1:n_forecast
-    lb_y(i,:) = y_temp(nobsn-n_forecast+i,:)' - 1.96 * sqrt(diag(varn(:,:,i)));
-    ub_y(i,:) = y_temp(nobsn-n_forecast+i,:)' + 1.96 * sqrt(diag(varn(:,:,i)));
-end
-plot(nobsn-n_forecast:nobsn, [y_temp(nobsn-n_forecast, p); lb_y(:,p)], 'g--');
-plot(nobsn-n_forecast:nobsn, [y_temp(nobsn-n_forecast, p); ub_y(:,p)], 'g--');
-% save('output_gh.mat', 'output')
-name = sprintf('output_%s.mat', err);
-save(name);
-end
+% figure;
+% p = 1;
+% y_temp = output.y_temp; varn = output.varn;
+% plot(y(:,p), 'k');
+% hold on
+% plot(nobsn-n_forecast:nobsn, y_temp(nobsn-n_forecast:nobsn, p), 'g');
+% for i = 1:n_forecast
+%     lb_y(i,:) = y_temp(nobsn-n_forecast+i,:)' - 1.96 * sqrt(diag(varn(:,:,i)));
+%     ub_y(i,:) = y_temp(nobsn-n_forecast+i,:)' + 1.96 * sqrt(diag(varn(:,:,i)));
+% end
+% plot(nobsn-n_forecast:nobsn, [y_temp(nobsn-n_forecast, p); lb_y(:,p)], 'g--');
+% plot(nobsn-n_forecast:nobsn, [y_temp(nobsn-n_forecast, p); ub_y(:,p)], 'g--');
+% % save('output_gh.mat', 'output')
+% % name = sprintf('output_%s.mat', err);
+% % save(name);
+% end

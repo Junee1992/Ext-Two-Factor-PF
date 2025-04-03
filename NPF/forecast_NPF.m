@@ -26,7 +26,6 @@ end
 
 [~, ~, lb, ub] = param_constr(n_par, ncontracts, LT, correlation, 0);
 ub(9:8+ncontracts) = 1;
-lb(5) = -3; ub(5) = 10;
 
 % Initialisation for the parameters (external particle)
 n_temp = nobsn - n_forecast;
@@ -299,11 +298,11 @@ for t = 1:nobsn-n_forecast
     [~,ind] = min(abs(cumprob-0.975));
     uq_xi(t,:) = sorted_data(ind,1);
 
-    subplot(1,2,1)
-    plot(1:t, Neff(1:t)/M);
-    subplot(1,2,2)
-    plot(1:t, par_est(1:t,:));
-    pause(0.01);
+    % subplot(1,2,1)
+    % plot(1:t, Neff(1:t)/M);
+    % subplot(1,2,2)
+    % plot(1:t, par_est(1:t,:));
+    % pause(0.01);
 end
 
 bound_chi = [lq_chi uq_chi];

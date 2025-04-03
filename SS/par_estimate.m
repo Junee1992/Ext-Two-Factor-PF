@@ -80,7 +80,7 @@ end
 global save_ett save_ytt save_att save_vt save_att_1 save_Ptt save_Ptt_1 save_xt_1n save_Pt_1n save_ett_1
 
 % Setting options for optimisation
-options = optimset('Display', 'iter', 'TolFun', 1e-6, 'TolX', 1e-6, 'MaxIter', 500, 'MaxFunEvals', 50000);
+options = optimset('Display', 'iter', 'TolFun', 1e-6, 'TolX', 1e-6, 'MaxIter', 1000, 'MaxFunEvals', 50000);
 
 if LT == "GBM"
     [par_optimised, log_L, exitflag, output, lambda, grad, hessian] = fmincon(@kf_SS, par_init, [], [], [], [], lb, ub, [], options, y_deseason, ttm, model_options);

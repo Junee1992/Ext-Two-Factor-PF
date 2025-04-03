@@ -1,4 +1,4 @@
-function [output] = forecast_KF(y_temp, ttm, model_options)
+function [output] = forecast_KF(y, ttm, model_options)
 
 fields = fieldnames(model_options);
 for i = 1:numel(fields)
@@ -6,10 +6,12 @@ for i = 1:numel(fields)
     eval([fieldName ' = model_options.(fieldName);']);
 end
 
-[~, ncontracts] = size(y_temp);
+[~, ncontracts] = size(y);
+n_temp = nobsn - n_forecast;
 
 for r = 1:n_forecast
     r
+    
     name = sprintf('time_%d', r);
     [par_optim, log_L_optim, par_init, trend, season, att, ytt, ett, ett_1, Ptt, fitresult_linear, fitresult_season] = ...
         par_estimate(y_temp(1:n_temp+r-1,:), ttm(1:n_temp+r-1,:), model_options);
@@ -152,7 +154,7 @@ for r = 1:n_forecast
         y_temp = [y_temp; y_fore(r,:)];
         ytt_temp.(name) = y_temp;
         varn(:,:,r) = B_comb * (G_test * Ptt(:,:,end) * G_test' + W) * B_comb' + ...
-                    V_temp;
+            phiBGinv*W*phiBGinv'+ V_temp;
         
     end
 end

@@ -1,6 +1,6 @@
 %% Kalman filter
 
-function log_L = kf_v3_arp(par_init, par_names, y, deltat, ttm, LT, correlation, serial)
+% function log_L = kf_v3_arp(par_init, par_names, y, deltat, ttm, LT, correlation, serial)
 
 % Defining the dimensions of the dataset.
 [nobsn, ncontracts] = size(y);
@@ -170,7 +170,10 @@ vtt = zeros(nobsn, ncontracts)';
 wt = [];
 
 for i = 1+n_lag:nobsn
-  
+    if i == 5
+        keyboard;
+    end
+
     if n_lag <= 1
         vt = zeros(ncontracts, nobsn);
 
@@ -209,7 +212,9 @@ for i = 1+n_lag:nobsn
 
     dLtt_1 = dLtt_1 + log(det(Ltt_1)); % ln (det(L_t|{t-1}))
     eLe = eLe + et' * inv(Ltt_1) * et;
-    
+    if isnan(eLe)
+        keyboard;
+    end
     % eLe = eLe + et' * inv(Ltt_1 + 1e-5 * eye(size(Ltt_1))) * et; % e_t' * L_t|{t-1} * e_t
     % 
     % Update equation
@@ -269,6 +274,7 @@ logL = -(1/2) * nobsn * ncontracts * log(2*pi) - (1 / 2) * dLtt_1 - (1 / 2) * eL
 log_L = -logL;
 
 if isnan(log_L)
+    keyboard;
     log_L = 0;
 end
 %------------------- End of Likelihood Function ---------------------%

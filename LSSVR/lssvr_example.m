@@ -5,7 +5,7 @@
 % close all; clear all;
 % rng(1000);
 
-function output_lssvr = lssvr_example(model_options);
+function output = lssvr_example(model_options);
 
 y = model_options.y;
 horiz = model_options.n_forecast;
