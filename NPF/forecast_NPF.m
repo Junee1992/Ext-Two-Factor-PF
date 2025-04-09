@@ -13,7 +13,7 @@ elseif LT == "GBM"
 end
 
 n_par = length(par_names);
-s2M = [repelem(2, model_par), repelem(1, n_par-model_par)]/M^(1.5); % Variances for jittering kernel
+s2M = [repelem(50, model_par), repelem(10, n_par-model_par)]/M^(1.5); % Variances for jittering kernel
 % Appendix C of Crisan and Miguez (2018)
 
 if err == "laplace"
@@ -21,7 +21,7 @@ if err == "laplace"
     s2M = [s2M 2/M^(1.5)];
 elseif err == "hyperbolic"
     n_beta = 3+ncontracts;
-    s2M = [s2M repelem(2, 3)/M^(1.5) repelem(1, ncontracts)/M^(1.5)];
+    s2M = [s2M repelem(20, 3)/M^(1.5) repelem(10, ncontracts)/M^(1.5)];
 end
 
 [~, ~, lb, ub] = param_constr(n_par, ncontracts, LT, correlation, 0);

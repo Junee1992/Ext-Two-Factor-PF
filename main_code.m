@@ -44,7 +44,7 @@ output_lssvr = lssvr_example(model_options);
 addpath(NPF_folder); rmpath(SS_folder); rmpath(LSSVR_folder);
 error_list = ["laplace", "hyperbolic"];
 M = 1000; N = 1000; max_lags = 0; % Not supporting autoregressive errors
-new_vars = {'M', 'N', 'err'};
+new_vars = {'M', 'N', 'err', 'max_lags'};
 % Both Laplace and GH
 for q = 1:2
     err = error_list(q);
